@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+:root {
+  --color-primary: #7c3aed;
+  --color-primary-dark: #6d28d9;
+}
+
+body {
+  background-color: #f9fafb;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
