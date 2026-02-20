@@ -1,6 +1,6 @@
 import { useState } from 'react'
+import type { BaziInput, BaziResult as BaziResultType, Pillar } from '@/core/bazi'
 import { calculateBazi } from '@/core/bazi'
-import type { BaziResult, BaziInput, Pillar } from '@/core/bazi'
 
 export function BaziPage() {
   const [input, setInput] = useState<BaziInput>({
@@ -10,26 +10,39 @@ export function BaziPage() {
     hour: 12,
     minute: 0,
   })
-  const [result, setResult] = useState<BaziResult | null>(null)
+  const [result, setResult] = useState<BaziResultType | null>(null)
   const [loading, setLoading] = useState(false)
 
   const handleCalculate = () => {
+    // Input validation
+    if (input.year < 1900 || input.year > 2100) {
+      alert('请输入1900-2100之间的年份')
+      return
+    }
+    if (input.month < 1 || input.month > 12) {
+      alert('请输入1-12之间的月份')
+      return
+    }
+    if (input.day < 1 || input.day > 31) {
+      alert('请输入1-31之间的日期')
+      return
+    }
+
     setLoading(true)
-    setTimeout(() => {
-      try {
-        const res = calculateBazi(input)
-        setResult(res)
-      } catch (e) {
-        alert((e as Error).message)
-      }
+    try {
+      const res = calculateBazi(input)
+      setResult(res)
+    } catch (e) {
+      alert((e as Error).message)
+    } finally {
       setLoading(false)
-    }, 100)
+    }
   }
 
   const handleInputChange = (field: keyof BaziInput, value: string) => {
     setInput((prev) => ({
       ...prev,
-      [field]: parseInt(value) || 0,
+      [field]: parseInt(value, 10) || 0,
     }))
   }
 
@@ -39,8 +52,11 @@ export function BaziPage() {
         <h2 className="mb-4 text-xl font-semibold text-gray-800">输入生辰</h2>
         <div className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-5">
           <div>
-            <label className="mb-1 block text-sm text-gray-500">年</label>
+            <label htmlFor="year" className="mb-1 block text-sm text-gray-500">
+              年
+            </label>
             <input
+              id="year"
               type="number"
               value={input.year}
               onChange={(e) => handleInputChange('year', e.target.value)}
@@ -48,8 +64,11 @@ export function BaziPage() {
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-gray-500">月</label>
+            <label htmlFor="month" className="mb-1 block text-sm text-gray-500">
+              月
+            </label>
             <input
+              id="month"
               type="number"
               min={1}
               max={12}
@@ -59,8 +78,11 @@ export function BaziPage() {
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-gray-500">日</label>
+            <label htmlFor="day" className="mb-1 block text-sm text-gray-500">
+              日
+            </label>
             <input
+              id="day"
               type="number"
               min={1}
               max={31}
@@ -70,8 +92,11 @@ export function BaziPage() {
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-gray-500">时</label>
+            <label htmlFor="hour" className="mb-1 block text-sm text-gray-500">
+              时
+            </label>
             <input
+              id="hour"
               type="number"
               min={0}
               max={23}
@@ -81,8 +106,11 @@ export function BaziPage() {
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-gray-500">分</label>
+            <label htmlFor="minute" className="mb-1 block text-sm text-gray-500">
+              分
+            </label>
             <input
+              id="minute"
               type="number"
               min={0}
               max={59}
@@ -93,6 +121,7 @@ export function BaziPage() {
           </div>
         </div>
         <button
+          type="button"
           onClick={handleCalculate}
           disabled={loading}
           className="rounded-lg bg-purple-600 px-6 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
@@ -101,12 +130,12 @@ export function BaziPage() {
         </button>
       </div>
 
-      {result && <BaziResult result={result} />}
+      {result && <BaziResultDisplay result={result} />}
     </div>
   )
 }
 
-function BaziResult({ result }: { result: BaziResult }) {
+function BaziResultDisplay({ result }: { result: BaziResultType }) {
   const pillars: { label: string; data: Pillar }[] = [
     { label: '年柱', data: result.year },
     { label: '月柱', data: result.month },
@@ -136,7 +165,8 @@ function BaziResult({ result }: { result: BaziResult }) {
                 {data.branch}
               </div>
               <div className="mb-1 text-xs text-gray-500">
-                {data.stemElement}{data.branchElement}
+                {data.stemElement}
+                {data.branchElement}
               </div>
               <div className="mb-1 text-xs text-gray-400">{data.nanyin}</div>
               {data.animal && (
@@ -161,7 +191,9 @@ function BaziResult({ result }: { result: BaziResult }) {
             <div className="text-sm text-gray-500">日干</div>
           </div>
           <div className="rounded-lg bg-gray-50 p-3 text-center">
-            <div className={`text-xl font-semibold ${elementColors[result.dayMasterElement]?.split(' ')[0]}`}>
+            <div
+              className={`text-xl font-semibold ${elementColors[result.dayMasterElement]?.split(' ')[0]}`}
+            >
               {result.dayMasterElement}命
             </div>
             <div className="text-sm text-gray-500">五行</div>

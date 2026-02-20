@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { randomDivination, divinationByNumbers } from '@/core/yijing'
 import type { YiResult } from '@/core/yijing'
+import { divinationByNumbers, randomDivination } from '@/core/yijing'
 
 export function YijingPage() {
   const [result, setResult] = useState<YiResult | null>(null)
@@ -9,30 +9,30 @@ export function YijingPage() {
 
   const handleRandom = () => {
     setLoading(true)
-    setTimeout(() => {
+    try {
       const res = randomDivination()
       setResult(res)
+    } finally {
       setLoading(false)
-    }, 100)
+    }
   }
 
   const handleNumbers = () => {
-    const nums = numbers.map((n) => parseInt(n) || 0)
+    const nums = numbers.map((n) => parseInt(n, 10) || 0)
     if (nums.some((n) => n < 1 || n > 50)) {
       alert('请输入1-50之间的数字')
       return
     }
 
     setLoading(true)
-    setTimeout(() => {
-      try {
-        const res = divinationByNumbers(nums)
-        setResult(res)
-      } catch (e) {
-        alert((e as Error).message)
-      }
+    try {
+      const res = divinationByNumbers(nums)
+      setResult(res)
+    } catch (e) {
+      alert((e as Error).message)
+    } finally {
       setLoading(false)
-    }, 100)
+    }
   }
 
   const handleNumberChange = (index: number, value: string) => {
@@ -43,42 +43,61 @@ export function YijingPage() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-xl border border-purple-100 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-xl font-semibold text-gray-800">数字起卦</h2>
-        <p className="mb-4 text-sm text-gray-500">输入3个1-50之间的数字</p>
-        <div className="mb-4 flex gap-2">
-          {numbers.map((num, i) => (
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="rounded-xl border border-purple-100 bg-white p-6 shadow-sm">
+          <h2 className="mb-4 text-xl font-semibold text-gray-800">数字起卦</h2>
+          <p className="mb-4 text-sm text-gray-500">心中默念想问之事，凭直觉输入3个1-50之间的数字</p>
+          <div className="mb-4 flex gap-2">
             <input
-              key={i}
               type="number"
               min={1}
               max={50}
-              value={num}
-              onChange={(e) => handleNumberChange(i, e.target.value)}
+              value={numbers[0]}
+              onChange={(e) => handleNumberChange(0, e.target.value)}
               className="w-20 rounded-lg border border-gray-200 px-3 py-2 text-center focus:border-purple-500 focus:outline-none"
-              placeholder={`数${i + 1}`}
+              placeholder="数1"
             />
-          ))}
+            <input
+              type="number"
+              min={1}
+              max={50}
+              value={numbers[1]}
+              onChange={(e) => handleNumberChange(1, e.target.value)}
+              className="w-20 rounded-lg border border-gray-200 px-3 py-2 text-center focus:border-purple-500 focus:outline-none"
+              placeholder="数2"
+            />
+            <input
+              type="number"
+              min={1}
+              max={50}
+              value={numbers[2]}
+              onChange={(e) => handleNumberChange(2, e.target.value)}
+              className="w-20 rounded-lg border border-gray-200 px-3 py-2 text-center focus:border-purple-500 focus:outline-none"
+              placeholder="数3"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={handleNumbers}
+            disabled={loading}
+            className="rounded-lg bg-purple-600 px-6 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
+          >
+            {loading ? '计算中...' : '起卦'}
+          </button>
         </div>
-        <button
-          onClick={handleNumbers}
-          disabled={loading}
-          className="rounded-lg bg-purple-600 px-6 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
-        >
-          {loading ? '计算中...' : '起卦'}
-        </button>
-      </div>
 
-      <div className="rounded-xl border border-purple-100 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-xl font-semibold text-gray-800">随机起卦</h2>
-        <p className="mb-4 text-sm text-gray-500">使用蓍草法随机生成卦象</p>
-        <button
-          onClick={handleRandom}
-          disabled={loading}
-          className="rounded-lg bg-purple-600 px-6 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
-        >
-          {loading ? '计算中...' : '随机起卦'}
-        </button>
+        <div className="rounded-xl border border-purple-100 bg-white p-6 shadow-sm">
+          <h2 className="mb-4 text-xl font-semibold text-gray-800">随机起卦</h2>
+          <p className="mb-4 text-sm text-gray-500">心中默念想问之事，使用蓍草法随机生成卦象</p>
+          <button
+            type="button"
+            onClick={handleRandom}
+            disabled={loading}
+            className="rounded-lg bg-purple-600 px-6 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
+          >
+            {loading ? '计算中...' : '随机起卦'}
+          </button>
+        </div>
       </div>
 
       {result && <GuaResult result={result} />}

@@ -1,6 +1,6 @@
 import { LunarHour } from 'tyme4ts'
 import type { BaziInput, BaziResult, Pillar } from './types'
-import { STEM_ELEMENTS, BRANCH_ELEMENTS, BRANCH_ZODIACS, YIN_YANG } from './types'
+import { BRANCH_ELEMENTS, BRANCH_ZODIACS, STEM_ELEMENTS, YIN_YANG } from './types'
 
 /**
  * Calculate BaZi (Four Pillars) from birth date/time

@@ -1,6 +1,6 @@
-import { YIN, YANG, YIN_CHANGE, YANG_CHANGE } from './types'
+import { codeToInt, getYiData, intToCode } from './data'
 import type { Yao, YaoState, YiGuaInfo, YiResult } from './types'
-import { getYiData, codeToInt, intToCode } from './data'
+import { YANG, YANG_CHANGE, YIN, YIN_CHANGE } from './types'
 
 /**
  * Convert number to yao (line)
@@ -118,7 +118,7 @@ export class YiGua {
             code = (first ? '1' : '0') + code
             first = false
           } else {
-            code = '0' + code
+            code = `0${code}`
           }
         }
       }
@@ -130,7 +130,7 @@ export class YiGua {
           code = (num === 1 ? '1' : '0') + code
           num++
         } else {
-          code = '0' + code
+          code = `0${code}`
         }
       }
     } else if (dong === 4) {
@@ -138,7 +138,7 @@ export class YiGua {
       let first = true
       for (let i = 0; i < 6; i++) {
         if (this.yao[i].dong) {
-          code = '0' + code
+          code = `0${code}`
         } else {
           code = (first ? '1' : '0') + code
           first = false
@@ -197,7 +197,7 @@ export class YiGua {
    * Get hexagram info (gua ci)
    */
   guaInfo(): string {
-    const yi = getYiData(codeToInt(this.guaCode + '111111'))
+    const yi = getYiData(codeToInt(`${this.guaCode}111111`))
     return yi?.data ?? ''
   }
 

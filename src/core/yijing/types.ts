@@ -38,7 +38,3 @@ export interface YiResult {
 export interface YijingNumbersInput {
   numbers: number[]
 }
-
-export interface YijingRandomInput {
-  seed?: number
-}

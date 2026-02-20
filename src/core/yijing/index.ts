@@ -1,8 +1,8 @@
 // Types
-export * from './types'
-
-// Core functions
-export { randomDivination, divinationByNumbers, YiGua, randomYao, intToYao } from './gua'
 
 // Data utilities
-export { getYiData, YIJING_DATA, codeToInt, intToCode, intFullToCode } from './data'
+export { codeToInt, getYiData, intFullToCode, intToCode, YIJING_DATA } from './data'
+
+// Core functions
+export { divinationByNumbers, intToYao, randomDivination, randomYao, YiGua } from './gua'
+export * from './types'

@@ -1,10 +1,10 @@
 // Re-export constants from types
 export {
-  ELEMENTS,
-  HEAVEN_STEMS,
-  EARTH_BRANCHES,
-  ZODIACS,
-  STEM_ELEMENTS,
   BRANCH_ELEMENTS,
   BRANCH_ZODIACS,
+  EARTH_BRANCHES,
+  ELEMENTS,
+  HEAVEN_STEMS,
+  STEM_ELEMENTS,
+  ZODIACS,
 } from './types'
