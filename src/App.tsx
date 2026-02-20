@@ -4,7 +4,7 @@ import { YijingPage } from './components/YijingPage'
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
         <Header />
         <main className="mx-auto max-w-4xl px-4 py-8">
