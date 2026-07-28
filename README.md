@@ -4,6 +4,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](#changelog)
 
+**English** · **[简体中文](README.zh-CN.md)**
+
 > An [Agent Skills](https://agentskills.io)–compliant skill that turns any LLM client into a professional Chinese fortune-telling and astrology assistant.
 
 YiFortune teaches an AI **how to read** fortune-telling data — the structural frameworks, the terminology, and the plain-language delivery — so that when a chart or hexagram is computed, the output is a high-quality professional reading instead of raw numbers.
