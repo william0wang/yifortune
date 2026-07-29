@@ -6,7 +6,12 @@ This reference computes and **structurally reads** a BaZi chart. It is the found
 
 Ask in **plain language** — one short question per missing piece. **Infer what you can from the user's wording; only ask when it's genuinely ambiguous.** Don't explain the underlying mechanics in jargon. Required:
 
-- **birthDatetime**: ISO-8601 with the birthplace timezone offset (e.g. `1990-01-15T14:30:00+08:00`). Never `Z`. If the user gives a local time + city, resolve the offset and confirm.
+- **birthDatetime**: ISO-8601 with the **birthplace** timezone offset (e.g. `1990-01-15T14:30:00+08:00`). Never `Z`. The offset is critical — a wrong value shifts the day/hour pillars and silently corrupts the chart. Resolve it in this priority order:
+  - **User states a city** → resolve that city's offset (e.g. "出生在上海" → `+08:00`; "born in New York" → `-05:00` / `-04:00` depending on season). Confirm only if the city is ambiguous (e.g. multiple time zones like "美国").
+  - **No city, but context is clearly Chinese** (user writes in Chinese, mentions Chinese festivals/cities, lunar dates) → default `+08:00`, no need to ask.
+  - **No city, overseas context but birthplace unspecified** → you MUST ask: "你/他/她出生在哪个城市？" — never guess the caller's current timezone.
+  - **Historical date (pre-1949 China)** with no timezone info → use `+08:00`.
+  - **Critical**: the offset must be the **birthplace** at the moment of birth, not where the person lives now. An immigrant born in Beijing but now in New York still uses `+08:00`.
 - **gender**: male or female. **Infer from the user's wording before asking — gender is the single most error-prone field because it silently flips the entire luck-pillar direction, so read it carefully:**
   - Explicit gender in the message → use it, no question:
     - "我是 1990 年的**男生** / **男的** / **男**" → male

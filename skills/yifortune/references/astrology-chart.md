@@ -17,9 +17,14 @@ Python ≥ 3.10 required. If `kerykeion` is missing, the script returns an error
 Ask in **plain language**. Astrology is extremely sensitive to time and place, but the user doesn't need a lecture on house cusps — just ask for the facts. Required:
 
 - **name**: any label for the subject.
-- **birthDatetime**: ISO-8601 with explicit birthplace offset. Never `Z`. If birth-time uncertainty >15 min, gently flag it: "出生时间记得不太准的话，会稍微影响上升星座的判断，没事，我们先用这个看" — don't paralyze the user with caveat stacks.
-- **lat** / **lng**: the **birthplace** coordinates (NOT current residence). Ask "你是在哪个城市出生的？" — resolve to lat/lng yourself.
-- **tz_str**: IANA timezone of the birthplace (e.g. `Asia/Shanghai`), must match the offset in `birthDatetime`.
+- **birthDatetime**: ISO-8601 with the **birthplace** offset, e.g. `1990-01-15T14:30:00+08:00`. Never `Z`. Astrology is far more time-sensitive than BaZi — the Ascendant moves ~1° every 4 minutes, so a wrong offset or wrong wall-clock hour silently rotates the entire house system. If birth-time uncertainty >15 min, gently flag it: "出生时间记得不太准的话，会稍微影响上升星座的判断，没事，我们先用这个看" — don't paralyze the user with caveat stacks. Resolve the offset in this priority order (same rule as **bazi-chart** Step 0):
+  - **User states a city** → resolve that city's offset. Note DST: "born in New York in July" → `-04:00` (EDT), not `-05:00`.
+  - **No city, but context is clearly Chinese** → default `+08:00`, no need to ask.
+  - **No city, overseas context but birthplace unspecified** → you MUST ask: "你/他/她出生在哪个城市？" — never guess the caller's current timezone.
+  - **Historical date (pre-1949 China)** with no timezone info → use `+08:00`.
+  - **Critical**: the offset is the **birthplace** at the moment of birth, not where the person lives now. An immigrant born in Beijing but now in New York still uses `+08:00` and `Asia/Shanghai`.
+- **lat** / **lng**: the **birthplace** coordinates (NOT current residence). Ask "你是在哪个城市出生的？" — resolve to lat/lng yourself. Coordinates and timezone must describe the same birthplace.
+- **tz_str**: IANA timezone of the **birthplace** (e.g. `Asia/Shanghai`). It MUST be consistent with the `birthDatetime` offset for that calendar date — e.g. `+08:00` pairs with `Asia/Shanghai`; `-04:00` in July pairs with `America/New_York`. The script validates this and will error out on a mismatch rather than compute a corrupted chart. `tz_str` drives the house cusps (via local sidereal time), so a wrong value is as damaging as a wrong birth time.
 
 ## Step 1 — Compute the Chart (local script)
 

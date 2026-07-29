@@ -15,8 +15,10 @@ Input fields:
                           NEVER use a trailing "Z" — birthplace local clock time matters.
     lat            (float) birthplace latitude
     lng            (float) birthplace longitude
-    tz_str         (str)  IANA timezone, e.g. "Asia/Shanghai" (must match the offset
-                          in birthDatetime for the birthplace)
+    tz_str         (str)  IANA timezone, e.g. "Asia/Shanghai". MUST be consistent with the
+                          birthDatetime offset for that calendar date — the script validates
+                          this and errors out on a mismatch (a wrong tz_str corrupts the
+                          house cusps).
 
 Output: JSON with sun/moon/ascendant (Big Three), all planets in signs & houses,
 the twelve house cusps, and the major aspects. No SVG — the LLM reads structured
@@ -26,8 +28,10 @@ data, not an image wheel.
 from __future__ import annotations
 
 import json
+import re
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 
 def parse_birth_datetime(s: str) -> datetime:
@@ -44,6 +48,41 @@ def parse_birth_datetime(s: str) -> datetime:
         return datetime.fromisoformat(text)
     except ValueError as e:
         raise ValueError(f"Invalid birthDatetime {s!r}: {e}") from e
+
+
+def check_tz_offset_consistency(birth_datetime: str, tz_str: str) -> None:
+    """Verify the birthDatetime offset matches tz_str for that calendar date.
+
+    kerykeion uses tz_str to derive local sidereal time (house cusps), while
+    the birthDatetime offset pins the wall-clock instant. If they disagree,
+    the chart is silently corrupted. Fail loudly instead.
+    """
+    m = re.search(r"([+-])(\d{2}):(\d{2})$", birth_datetime)
+    if not m:
+        return  # parse_birth_datetime already rejects offset-less input
+    sign, oh, om = m.group(1), int(m.group(2)), int(m.group(3))
+    input_offset = (1 if sign == "+" else -1) * (oh * 60 + om)
+
+    try:
+        zone = ZoneInfo(tz_str)
+    except Exception as e:  # noqa: BLE001 — surface bad tz_str verbatim.
+        raise ValueError(f"Invalid tz_str {tz_str!r}: {e}") from e
+
+    # Offset the IANA zone yields for the birth instant.
+    dt = parse_birth_datetime(birth_datetime)
+    localized = dt.astimezone(zone)
+    zone_offset = localized.utcoffset() or timedelta(0)
+    zone_offset_min = int(zone_offset.total_seconds() // 60)
+
+    if input_offset != zone_offset_min:
+        raise ValueError(
+            f"birthDatetime offset {sign}{oh:02d}:{om:02d} does not match "
+            f"tz_str {tz_str!r} (which yields "
+            f"{'+' if zone_offset_min >= 0 else '-'}"
+            f"{abs(zone_offset_min)//60:02d}:{abs(zone_offset_min)%60:02d} "
+            f"for this date). House cusps depend on tz_str, so a mismatch "
+            f"silently corrupts the chart. Align them to the same birthplace."
+        )
 
 
 def point_to_dict(point) -> dict:
@@ -173,6 +212,7 @@ def main() -> int:
 
     try:
         dt = parse_birth_datetime(req["birthDatetime"])
+        check_tz_offset_consistency(req["birthDatetime"], req["tz_str"])
     except ValueError as e:
         print(json.dumps({"error": str(e)}))
         return 1
