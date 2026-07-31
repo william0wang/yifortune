@@ -100,3 +100,11 @@ A structural chart reading in **two layers** (see SKILL.md — the plain layer i
 8. **你身上最需要注意的一点** — the single most important takeaway from the 刑冲合会 / 偏枯, in plain words
 
 **When the user asks about a specific topic** (career, wealth, love, health, growth, etc.), do NOT attempt it here — tell the user (or route to) the dedicated topic reference, which will reference this chart.
+
+## 解读完后：要不要补一个星盘
+
+八字看完大势后，如果用户的疑问涉及**性格底色、情感模式、内在动机**（而不只是趋势/时机），主动问一句要不要再看西方星盘——星盘在性格和情感维度往往比八字更细腻。典型话术：
+
+> "八字看完大势了，要不要我再给你排个西方星盘？能补上你性格和情感那一面的细节。"
+
+**先确认环境**：astrology 走的是本地 Python 脚本（`references/astrology-chart.md`），需要用户机器装了 Python 3.10+ 和 kerykeion。推荐前先确认环境（看 astrology-chart Step 0 的前置检查）；环境不具备就别强推，体验翻车比少一项更糟。

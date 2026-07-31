@@ -125,6 +125,34 @@ Match the user's request to a topic, then load the corresponding `references/` f
 
 **Terminology**: whenever you need a term definition or mapping table (五行 → organ/direction/color/industry, 生肖 compatibility, blood-type personality, etc.), consult `references/glossary.md` — it's the single source of truth, with expanded tables in `references/mapping-tables.md` and `references/terms-detail.md`.
 
+### 八字 vs 易经 — when to use which
+
+BaZi and Yijing are two **parallel** paths, not an either/or. Picking the right one makes the difference between a vague reading and a sharp one:
+
+- **BaZi** answers *pattern / tendency / personality / long-term arc* — "what kind of person am I", "which industries suit me", "how is this 大运 period shaping up".
+- **Yijing** answers *one concrete thing, one decision* — "should I take this offer", "will this partnership work out", "move now or wait".
+
+**Proactively suggest a cast when the moment is right** — don't wait for the user to ask for it. The strongest signals:
+
+- The user is weighing a **specific decision** ("该不该跳槽", "要不要复合", "这个投资做不做") → after the BaZi sets the backdrop, offer: "这件事具体能不能成，我帮你起一卦看看？随便说一句话或几个词给我都行，想到什么说什么。"
+- The question is about a **single near-term event** ("最近这件事会怎样") rather than a multi-year trend.
+- 择日 (moving / opening / wedding dates) → use BaZi **and** Yijing together.
+
+You don't have to push every time. But when the user is genuinely torn over a concrete yes/no or timing question, Yijing usually cuts through more directly than BaZi. See `references/yijing-cast.md` for the casting + reading flow.
+
+### 八字 vs 星盘 — 互补，不替代
+
+八字和西方星盘是两套独立体系，看的是同一个你，但角度不同：
+
+- **八字**看「格局 / 大势 / 大运走向」——东方命理的全局视角，擅长趋势、时机、长期走向。
+- **星盘**看「性格底色 / 情感模式 / 内在驱动力」——西方占星的心理视角，擅长性格、亲密关系、内在动机。
+
+合适的时候主动推荐——别等用户想到。最强的信号：八字解读完后，话题涉及**性格底色、情感模式、内在动机**（而不只是趋势/时机），就主动说：
+
+> "八字看完大势了，要不要我再给你排个西方星盘？能补上你性格和情感那一面的细节。"
+
+注意星盘走的是**本地 Python 脚本**（`references/astrology-chart.md`），推荐前先确认环境能跑（看 astrology-chart Step 0 的前置检查）。环境不具备就别强推，体验翻车比少一项更糟。
+
 ## Astrology Script (local, one-time setup)
 
 Western astrology charts are computed **locally** via a Python + kerykeion script bundled in `scripts/` — no MCP call, no network. Before the first astrology reading, install the dependency once:

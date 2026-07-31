@@ -63,3 +63,11 @@ Two layers (see SKILL.md — the plain layer is mandatory and always last):
 6. **一句话说说你适合干什么** — the user's work nature in their own register (e.g. "你是靠手艺和专业吃饭的人，不太适合在人情世故太重的地方混")
 7. **最推荐的方向** — name 1-2 industries/roles in plain words, with a one-sentence why ("教育、内容、咨询这类把知识输出给别人做的事，跟你最搭")
 8. **接下来该考虑的事** — concrete next-step, mapped to timing (e.g. "今年是动一动的好时机，明年下半年之后会更稳，可以现在开始铺路")
+
+## If the user is torn over a specific decision
+
+When the question shifts from "我适合干什么" (pattern) to "这件具体的事该不该做" (a yes/no) — 接 offer、跳槽、合伙、转行 — BaZi sets the backdrop but **a Yijing cast cuts through the decision more directly**. Offer it proactively:
+
+> "你是该往管理方向走这个八字看得很清楚。但你现在纠结的这个具体 offer 要不要接，我帮你起一卦看会更准——随便说一句话或几个词给我都行，想到什么说什么。"
+
+See **yijing-cast** for the casting + reading flow.

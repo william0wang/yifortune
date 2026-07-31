@@ -64,3 +64,11 @@ Two layers (see SKILL.md — the plain layer is mandatory and always last):
 6. **你这类人在感情里是什么样** — plain portrait of their love nature (e.g. "你在感情里是付出型，一旦认定就特别上心，但容易吸引到需要你照顾的人")
 7. **什么样的人跟你最搭** — describe the compatible partner type in everyday words, not "正官/七杀"
 8. **感情上接下来顺不顺** — timing read in plain language ("这两年桃花比较旺，是认识人的好时候" or "现在这段更像是给自己打底的阶段，急不得")
+
+## If the user is torn over a specific relationship decision
+
+When the question shifts from "我的感情运怎样" (pattern) to a single decision — 要不要复合、该不该在一起、这段该不该继续、现在表白合不合适 — BaZi reads the tendencies but **a Yijing cast answers that one choice more directly**. Offer it:
+
+> "你命里是晚婚更稳的格局。但你问的这段到底要不要回头，我帮你起一卦看会更准——随便说一句话或几个词给我都行，想到什么说什么。"
+
+See **yijing-cast** for the casting + reading flow.

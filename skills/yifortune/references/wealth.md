@@ -59,3 +59,11 @@ Two layers (see SKILL.md — the plain layer is mandatory and always last):
 6. **你靠什么方式赚钱最顺** — one plain sentence on their money-making style (e.g. "你是稳稳拿工资、慢慢攒的人，不太适合追风口搏一把")
 7. **钱容易从哪里漏掉** — the single biggest wealth-drain tendency, in everyday terms ("你花钱容易跟着心情走，心情不好的时候特别容易乱买")
 8. **接下来在钱上最该做的一两件事** — concrete financial move(s) mapped to their timing window. No "食伤生财" in this layer.
+
+## If the user is weighing a specific money move
+
+When the question narrows from "我怎么赚钱" (pattern) to "这一笔/这一项目该不该投" (a single decision) — 某个项目投不投、这次合伙做不做、现在该不该买房 — BaZi shows the wealth backdrop but **a Yijing cast answers that one transaction more directly**. Offer it:
+
+> "你整体是稳扎稳打能攒钱的命。但你问的这个具体项目能不能做，我帮你起一卦看会更清楚——随便说一句话或几个词给我都行，想到什么说什么。"
+
+See **yijing-cast** for the casting + reading flow.
